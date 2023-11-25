@@ -1,0 +1,7 @@
+C:\Users\Gadzhi\source\repos\QuizPlizGame\QuizPlizGame\obj\Debug\QuizPlizGame.csproj.AssemblyReference.cache
+C:\Users\Gadzhi\source\repos\QuizPlizGame\QuizPlizGame\obj\Debug\QuizPlizGame.csproj.CoreCompileInputs.cache
+C:\Users\Gadzhi\source\repos\QuizPlizGame\QuizPlizGame\bin\Debug\QuizPlizGame.dll
+C:\Users\Gadzhi\source\repos\QuizPlizGame\QuizPlizGame\bin\Debug\QuizPlizGame.pdb
+C:\Users\Gadzhi\source\repos\QuizPlizGame\QuizPlizGame\obj\Debug\QuizPlizGame.csproj.CopyComplete
+C:\Users\Gadzhi\source\repos\QuizPlizGame\QuizPlizGame\obj\Debug\QuizPlizGame.dll
+C:\Users\Gadzhi\source\repos\QuizPlizGame\QuizPlizGame\obj\Debug\QuizPlizGame.pdb

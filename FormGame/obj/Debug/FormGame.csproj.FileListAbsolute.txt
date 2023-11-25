@@ -1,0 +1,13 @@
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\obj\Debug\FormGame.csproj.AssemblyReference.cache
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\obj\Debug\FormGame.csproj.SuggestedBindingRedirects.cache
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\obj\Debug\FormGame.exe.config
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\obj\Debug\FormGame.Form1.resources
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\obj\Debug\FormGame.Properties.Resources.resources
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\obj\Debug\FormGame.csproj.GenerateResource.cache
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\obj\Debug\FormGame.csproj.CoreCompileInputs.cache
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\bin\Debug\FormGame.exe.config
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\bin\Debug\FormGame.exe
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\bin\Debug\FormGame.pdb
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\obj\Debug\FormGame.csproj.CopyComplete
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\obj\Debug\FormGame.exe
+C:\Users\Gadzhi\source\repos\QuizPlizGame\FormGame\obj\Debug\FormGame.pdb

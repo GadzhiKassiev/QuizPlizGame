@@ -1,0 +1,10 @@
+C:\Users\Gadzhi\source\repos\QuizPlizGame\ConsoleGame\bin\Debug\ConsoleGame.exe.config
+C:\Users\Gadzhi\source\repos\QuizPlizGame\ConsoleGame\bin\Debug\ConsoleGame.exe
+C:\Users\Gadzhi\source\repos\QuizPlizGame\ConsoleGame\bin\Debug\ConsoleGame.pdb
+C:\Users\Gadzhi\source\repos\QuizPlizGame\ConsoleGame\obj\Debug\ConsoleGame.csproj.AssemblyReference.cache
+C:\Users\Gadzhi\source\repos\QuizPlizGame\ConsoleGame\obj\Debug\ConsoleGame.csproj.SuggestedBindingRedirects.cache
+C:\Users\Gadzhi\source\repos\QuizPlizGame\ConsoleGame\obj\Debug\ConsoleGame.exe.config
+C:\Users\Gadzhi\source\repos\QuizPlizGame\ConsoleGame\obj\Debug\ConsoleGame.csproj.CoreCompileInputs.cache
+C:\Users\Gadzhi\source\repos\QuizPlizGame\ConsoleGame\obj\Debug\ConsoleGame.csproj.CopyComplete
+C:\Users\Gadzhi\source\repos\QuizPlizGame\ConsoleGame\obj\Debug\ConsoleGame.exe
+C:\Users\Gadzhi\source\repos\QuizPlizGame\ConsoleGame\obj\Debug\ConsoleGame.pdb
