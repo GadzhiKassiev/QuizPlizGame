@@ -1,6 +1,5 @@
 ﻿using QuizPlizGame;
 using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace FormGame
@@ -8,15 +7,15 @@ namespace FormGame
     internal class FormController : IController
     {
 
-        public void WaitForUserChoiceOption(Action<int> act)
+        public void WaitForUserChoiceOption(Action<ChosenMenuOption> act)
         {
-            int index = -1;
+            ChosenMenuOption option = ChosenMenuOption.None;
             while (Form1.Instance.Key == null)
             {
             }
             if (Form1.Instance.Key == ConsoleKey.Y)
             {
-                index = 0;
+                option = ChosenMenuOption.Start;
                 Form1.Instance.TextBox.Invoke((MethodInvoker)delegate {
                     Form1.Instance.StartButton.Enabled = false;
                     Form1.Instance.ReportButton.Enabled = false;
@@ -29,40 +28,40 @@ namespace FormGame
             }
             else if (Form1.Instance.Key == ConsoleKey.R)
             {
-                index = 1;
+                option = ChosenMenuOption.Report;
             }
             else if (Form1.Instance.Key == ConsoleKey.N)
             {
-                index = 2;
+                option = ChosenMenuOption.Exit;
             }
             Form1.Instance.Key = null;
-            act(index);
+            act(option);
         }
 
-        public void WaitForUserChoiceAnswer(Action<int> act)
+        public void WaitForUserChoiceAnswer(Action<ChosenAnswer> act)
         {
-            int index = -1;
+            ChosenAnswer answer = ChosenAnswer.None;
             while (Form1.Instance.Key == null)
             {
             }
             if (Form1.Instance.Key == ConsoleKey.D1)
             {
-                index = 1;
+                answer = ChosenAnswer.Answer1;
             }
             else if (Form1.Instance.Key == ConsoleKey.D2)
             {
-                index = 2;
+                answer = ChosenAnswer.Answer2;
             }
             else if (Form1.Instance.Key == ConsoleKey.D3)
             {
-                index = 3;
+                answer = ChosenAnswer.Answer3;
             }
             else if (Form1.Instance.Key == ConsoleKey.D4)
             {
-                index = 4;
+                answer = ChosenAnswer.Answer4;
             }
             Form1.Instance.Key = null;
-            act(index);
+            act(answer);
         }
     }
 }

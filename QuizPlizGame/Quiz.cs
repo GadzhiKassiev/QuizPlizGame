@@ -3,17 +3,17 @@
 
 namespace QuizPlizGame
 {
-    public class QuizBox
+    public class QuizQuestions
     {
-        public QuizPart[] quiz { get; set; }
+        public QuizQuestion[] quiz { get; set; }
 
-        public QuizBox(QuizPart[] quiz)
+        public QuizQuestions(QuizQuestion[] quiz)
         {
             this.quiz = quiz;
         }
     }
 
-    public class QuizPart
+    public class QuizQuestion
     {
         public string question { get; set; }
         public QuizAnswer answer { get; set; }
@@ -21,7 +21,7 @@ namespace QuizPlizGame
 
 
 
-        public QuizPart(string question, QuizAnswer answer, string correct)
+        public QuizQuestion(string question, QuizAnswer answer, string correct)
         {
             this.question = question;
             this.answer = answer;
@@ -36,13 +36,19 @@ namespace QuizPlizGame
         /// </summary>
         [JsonPropertyName("a1")]
         public string A1 { get; set; }
-
+        /// <summary>
+        /// вариант ответа 2
+        /// </summary>
         [JsonPropertyName("a2")]
         public string A2 { get; set; }
-
+        /// <summary>
+        /// вариант ответа 3
+        /// </summary>
         [JsonPropertyName("a3")]
         public string A3 { get; set; }
-
+        /// <summary>
+        /// вариант ответа 4
+        /// </summary>
         [JsonPropertyName("a4")]
         public string A4 { get; set; }
 

@@ -62,10 +62,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionJSONRepository.cs" />
     <Compile Include="Quiz.cs" />
+    <Compile Include="UserInputReader.cs" />
     <Compile Include="RepeatQuestionState.cs" />
     <Compile Include="Report.cs" />
     <Compile Include="ReportJSONRepository.cs" />
     <Compile Include="State.cs" />
+    <Compile Include="UserInputReaderAsync.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

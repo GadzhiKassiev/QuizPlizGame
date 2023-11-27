@@ -4,9 +4,9 @@ namespace QuizPlizGame
 {
     public interface IDisplayer
     {
-        void ShowQuestion(QuizPart questionData);
+        void ShowQuestion(QuizQuestion questionData);
 
-        void ShowReport(IEnumerable<Report> fm);
+        void ShowGameStats(IEnumerable<Report> fm);
 
         void ShowInPosition(string text, int x, int y);
 

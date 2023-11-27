@@ -12,7 +12,7 @@ namespace QuizPlizGame
         State _state;
 
         public Player Player { get { return game.Player; } }
-        public Stack<QuizPart> DataGame { get { return game.Data; } }
+        public Stack<QuizQuestion> DataGame { get { return game.Data; } }
 
         public GameStateMachine(Game g)
         {
@@ -46,7 +46,7 @@ namespace QuizPlizGame
             return _nextQuestionState;
         }
 
-        public State getRepeadQuestionState(GameTimer gameTimer, QuizPart quizPart)
+        public State getRepeadQuestionState(GameTimer gameTimer, QuizQuestion quizPart)
         {
             _repeadQuestionState.QuizPart = quizPart;
             _repeadQuestionState.GameTimer = gameTimer;

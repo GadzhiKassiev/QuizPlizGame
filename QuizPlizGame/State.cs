@@ -7,10 +7,10 @@ namespace QuizPlizGame
         protected GameStateMachine gameStateMachine;
 
         protected Player GetPlayer { get { return gameStateMachine.Player; } }
-        protected Stack<QuizPart> GetData { get { return gameStateMachine.DataGame; } }
+        protected Stack<QuizQuestion> GetData { get { return gameStateMachine.DataGame; } }
 
         public GameTimer GameTimer { get; set; }
-        public QuizPart QuizPart { get; set; }
+        public QuizQuestion QuizPart { get; set; }
 
         abstract public void Handle();
     }

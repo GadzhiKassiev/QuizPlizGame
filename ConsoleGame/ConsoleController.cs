@@ -6,49 +6,49 @@ namespace ConsoleGame
 {
     internal class ConsoleController : IController
     {
-        public void WaitForUserChoiceOption(Action<int> act)
+        public void WaitForUserChoiceOption(Action<ChosenMenuOption> act)
         {
             ConsoleKeyInfo cki;
       
             cki = Console.ReadKey();
-            int index = -1;
+            ChosenMenuOption option = ChosenMenuOption.None;
             if (cki.Key == ConsoleKey.Y)
             {
-                index = 0;
+                option = ChosenMenuOption.Start;
             }
             else if (cki.Key == ConsoleKey.R)
             {
-                index = 1;
+                option = ChosenMenuOption.Report;
             }
             else if (cki.Key == ConsoleKey.N)
             {
-                index = 2;
+                option = ChosenMenuOption.Exit;
             }        
-            act(index);
+            act(option);
         }
 
-        public void WaitForUserChoiceAnswer(Action<int>act)
+        public void WaitForUserChoiceAnswer(Action<ChosenAnswer> act)
         {
             ConsoleKeyInfo cki;
-            int index = -1;
+            ChosenAnswer answer = ChosenAnswer.None;
             cki = Console.ReadKey();
             if (cki.Key == ConsoleKey.D1)
             {
-                index = 1;
+                answer = ChosenAnswer.Answer1;
             }
             else if (cki.Key == ConsoleKey.D2)
             {
-                index = 2;
+                answer = ChosenAnswer.Answer2;
             }
             else if (cki.Key == ConsoleKey.D3)
             {
-                index = 3;
+                answer = ChosenAnswer.Answer3;
             }
             else if (cki.Key == ConsoleKey.D4)
             {
-                index = 4;
+                answer = ChosenAnswer.Answer4;
             }
-            act(index);
+            act(answer);
         }
     }
 }

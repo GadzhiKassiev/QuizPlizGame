@@ -6,12 +6,12 @@ namespace QuizPlizGame
     public class Report
     {
         [JsonPropertyName("time")]
-        public TimeSpan Time { get; set; }
+        public TimeSpan GameTime { get; set; }
 
         [JsonPropertyName("numberCorrectAnswer")]
         public int Number { get; set; }
 
         [JsonPropertyName("data")]
-        public DateTime Data { get; set; }
+        public DateTime GameDate { get; set; }
     }
 }

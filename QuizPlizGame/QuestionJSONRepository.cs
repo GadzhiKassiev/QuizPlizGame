@@ -18,20 +18,20 @@ namespace QuizPlizGame
             }
         }
 
-        public QuizPart[] Read()
+        public QuizQuestion[] Read()
         {
             return GetData().quiz;
         }
 
 
-        private QuizBox GetData()
+        private QuizQuestions GetData()
         {
-            QuizBox data = null;
+            QuizQuestions data = null;
 
             try
             {
                 var json = File.ReadAllText(filepath);
-                data = JsonSerializer.Deserialize<QuizBox>(json);
+                data = JsonSerializer.Deserialize<QuizQuestions>(json);
             }
             catch (FileNotFoundException e)
             {

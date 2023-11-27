@@ -11,7 +11,7 @@ namespace FormGame
         {
         }
 
-        public void ShowQuestion(QuizPart questionData)
+        public void ShowQuestion(QuizQuestion questionData)
         {
             Form1.Instance.TextBox.Invoke((MethodInvoker)delegate {
                 Form1.Instance.TextBox.Text = questionData.question;
@@ -22,13 +22,13 @@ namespace FormGame
             });
         }
 
-        public void ShowReport(IEnumerable<Report> fm)
+        public void ShowGameStats(IEnumerable<Report> fm)
         {
             Form1.Instance.TextBox.Invoke((MethodInvoker)delegate {         
                 Clear();
                 foreach (var fmItem in fm)
                 {
-                    Form1.Instance.TextBox.AppendText("\r\n" + "Дата игры: " + fmItem.Data + " Время игры: " + fmItem.Time + " сек Очки: " + fmItem.Number);
+                    Form1.Instance.TextBox.AppendText("\r\n" + "Дата игры: " + fmItem.GameDate + " Время игры: " + fmItem.GameTime + " сек Очки: " + fmItem.Number);
                 }
             });
         }

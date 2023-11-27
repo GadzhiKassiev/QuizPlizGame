@@ -14,7 +14,7 @@ namespace ConsoleGame
             Width = Console.WindowWidth;
             Height = Console.WindowHeight;
         }
-        public void ShowQuestion(QuizPart questionData)
+        public void ShowQuestion(QuizQuestion questionData)
         {
             Clear();
             Console.WriteLine(questionData.question);
@@ -24,12 +24,12 @@ namespace ConsoleGame
             Console.WriteLine("4 :  " + questionData.answer.A4);
         }
 
-        public void ShowReport(IEnumerable<Report> fm)
+        public void ShowGameStats(IEnumerable<Report> fm)
         {
             Clear();
             foreach (var fmItem in fm)
             {
-                Console.WriteLine("Дата игры: " + fmItem.Data + " Время игры: " + fmItem.Time + " сек Очки: " + fmItem.Number);
+                Console.WriteLine("Дата игры: " + fmItem.GameDate + " Время игры: " + fmItem.GameTime + " сек Очки: " + fmItem.Number);
             }
         }
 

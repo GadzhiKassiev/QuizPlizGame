@@ -4,8 +4,8 @@ namespace QuizPlizGame
 {
     public class Player
     {
-        public int Point { get; set; }
+        public int Score { get; set; }
         public TimeSpan GameTime { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime GameDate { get; set; }
     }
 }

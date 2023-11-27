@@ -7,31 +7,42 @@ using System.IO;
 
 namespace QuizPlizGame
 {
+    public enum ChosenMenuOption { None, Start, Report, Exit }
+    public enum ChosenAnswer { None = 0, Answer1 = 1, Answer2 = 2, Answer3 = 3, Answer4 = 4 }
+
+
     public class Game
     {
 
         #region Fields      
-        public Player Player { get; set; }
-        public Stack<QuizPart> Data { get; set; }
         public IDisplayer displayer;
-        GameStateMachine _gameStateMachine;
         public IController controller;
-        DateTime _timeBeginGame;
         const int timeQuestion = 30;
+        DateTime _timeBeginGame;
+        GameStateMachine _gameStateMachine;
         IStorageProvider _storageProvider;
-        QuizPart qp;
+        QuizQuestion _quizQuestion;
         GameTimer timer;
         bool answered;
         bool optionChosed;
-        static Thread s_inputThread;
-        static AutoResetEvent s_getInput, s_gotInput;
-        enum AnswerStatus {Non, Correct, NotCorrect, InvalidInput, TimeEnd};
+        UserInputReader _userInputReader;
+        enum AnswerStatus {None, Correct, NotCorrect, InvalidInput, TimeEnd};
         AnswerStatus answerStatus;
 
         #endregion
 
+        #region Properties
+        public bool IsAnswered 
+        { 
+            get { return answered; } 
+            set { answered = value; }
+        }
+        public Player Player { get; set; }
+        public Stack<QuizQuestion> Data { get; set; }
+        #endregion
+
         #region ctor
-        public Game(IDisplayer displayer, IController controller)
+        public Game(IDisplayer displayer, IController controller, IStorageProvider storageProvider)
         {
             Player = new Player();
             _gameStateMachine = new GameStateMachine(this);
@@ -39,16 +50,17 @@ namespace QuizPlizGame
             this.controller = controller;
             answered = false;
             optionChosed = false;
-            answerStatus = AnswerStatus.Non;
+            answerStatus = AnswerStatus.None;
+            Init(storageProvider);
         }
         #endregion    
 
-        public void Init(IStorageProvider storageProvider)
+        private void Init(IStorageProvider storageProvider)
         {
             _storageProvider = storageProvider;
             IQuestionRepository qr = _storageProvider.getDataRepository();
-            QuizPart[] qp = Shuffle(qr.Read());
-            Data = new Stack<QuizPart>(qp);
+            QuizQuestion[] qp = Shuffle(qr.Read());
+            Data = new Stack<QuizQuestion>(qp);
             _storageProvider.getReportRepository();
         }
 
@@ -68,21 +80,21 @@ namespace QuizPlizGame
         private void End()
         {
             Report fm = new Report();
-            fm.Data = Player.Date;
-            fm.Time = Player.GameTime;
-            fm.Number = Player.Point;
+            fm.GameDate = Player.GameDate;
+            fm.GameTime = Player.GameTime;
+            fm.Number = Player.Score;
             _storageProvider.getReportRepository().Write(fm);
-            displayer.ShowReport(new List<Report>() { fm });
+            displayer.ShowGameStats(new List<Report>() { fm });
         }
 
-        protected QuizPart[] Shuffle(QuizPart[] qp)
+        protected QuizQuestion[] Shuffle(QuizQuestion[] qp)
         {
             Random rnd = new Random();
 
             for (int i = 0; i < qp.Length; i++)
             {
                 int r = rnd.Next(0, i + 1);
-                QuizPart swap = qp[i];
+                QuizQuestion swap = qp[i];
                 qp[i] = qp[r];
                 qp[r] = swap;
             }
@@ -103,17 +115,17 @@ namespace QuizPlizGame
             _timeBeginGame = DateTime.Now;
         }
 
-        void HandleUserChoiceOption(int index)
+        void HandleUserChoiceOption(ChosenMenuOption option)
         {
-            if (index == 0)
+            if (option == ChosenMenuOption.Start)
             {
                 optionChosed = true;
             }
-            else if (index == 1)
+            else if (option == ChosenMenuOption.Report)
             {
-                displayer.ShowReport(_storageProvider.getReportRepository().Read().Take(4));
+                displayer.ShowGameStats(_storageProvider.getReportRepository().Read().Take(4));
             }
-            else if (index == 2)
+            else if (option == ChosenMenuOption.Exit)
             {
                 Environment.Exit(0);
             }
@@ -121,46 +133,26 @@ namespace QuizPlizGame
 
         private void Play()
         {
-            s_getInput = new AutoResetEvent(false);
-            s_gotInput = new AutoResetEvent(false);
-            s_inputThread = new Thread(reader);
-            s_inputThread.IsBackground = true;
-            s_inputThread.Start();
+            _userInputReader = new UserInputReader(this);
             _gameStateMachine.Launch();
-            Player.Date = DateTime.Now;
-            Player.GameTime = Player.Date - _timeBeginGame;
-        }
-        private void reader()
-        {
-            while (true)
-            {
-                s_getInput.WaitOne();
-                while (!answered)
-                    controller.WaitForUserChoiceAnswer(HandleUserChoiceAnswer);
-                answered = false;
-                s_gotInput.Set();
-            }
+            Player.GameDate = DateTime.Now;
+            Player.GameTime = Player.GameDate - _timeBeginGame;
         }
 
-        private void WaitForInput(int timeOutMillisecs = Timeout.Infinite)
+        private void NoSuccessInput()
         {
-            s_getInput.Set();
-            bool success = s_gotInput.WaitOne(timeOutMillisecs);
-            if (!success)
-            {
-                timer.Stop();
-                displayer.ShowEndTime();
-                answerStatus = AnswerStatus.TimeEnd;
-            }
+            timer.Stop();
+            displayer.ShowEndTime();
+            answerStatus = AnswerStatus.TimeEnd;
         }
 
-        public void MakeTurn(GameTimer gameTimer, QuizPart quizPart)
+        public void MakeTurn(GameTimer gameTimer, QuizQuestion quizPart)
         {
             timer = gameTimer;
-            qp = quizPart;
+            _quizQuestion = quizPart;
             // вызывать вайт фор юзер и сдель отсчитывавет таймер если я получил импут
             // то таймер сбрасывается если не получил импут то нужно сказать больше не жду 
-            WaitForInput((timeQuestion - timer.CurrentCount) * 1000);           
+            _userInputReader.WaitForInput(NoSuccessInput, (timeQuestion - timer.CurrentCount) * 1000);           
             if (answerStatus == AnswerStatus.InvalidInput)
             {
                 _gameStateMachine.setState(_gameStateMachine.getRepeadQuestionState(gameTimer, quizPart));
@@ -178,26 +170,27 @@ namespace QuizPlizGame
             }
         }
 
-        void HandleUserChoiceAnswer(int index)
+        public void HandleUserChoiceAnswer(ChosenAnswer chosenAnswer)
         {
-           if (index == int.Parse(qp.correct))
+            int answer = (int)chosenAnswer;
+            if (answer == int.Parse(_quizQuestion.correct))
             {
                 timer.Stop();
-                Player.Point += 1;
+                Player.Score += 1;
                 displayer.ShowSuccess();
                 answered = true;
                 answerStatus = AnswerStatus.Correct;
             }
-            else if (index != 1 && index != 2 && index != 3 && index != 4)
+            else if (answer != 1 && answer != 2 && answer != 3 && answer != 4)
             {
                 displayer.ShowNoCorrectButton();
                 answered = true;
                 answerStatus = AnswerStatus.InvalidInput;
             }
-            else if (index == 1 || index == 2 || index == 3 || index == 4)
+            else if (answer == 1 || answer == 2 || answer == 3 || answer == 4)
             {
                 timer.Stop();
-                Player.Point -= 1;
+                Player.Score -= 1;
                 displayer.ShowNoCorrect();
                 answered = true;
                 answerStatus = AnswerStatus.NotCorrect;

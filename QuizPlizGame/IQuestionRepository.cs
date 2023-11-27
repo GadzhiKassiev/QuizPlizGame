@@ -2,6 +2,6 @@
 {
     public interface IQuestionRepository
     {
-        QuizPart[] Read();
+        QuizQuestion[] Read();
     }
 }

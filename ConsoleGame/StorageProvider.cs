@@ -6,48 +6,47 @@ namespace ConsoleGame
 {
     public class StorageProvider : IStorageProvider
     {
-        const string fileNameOfDate = "datawithJson.txt";
+        const string fileNameOfData = "datawithJson.txt";
         const string fileNameOfReport = "report.txt";
 
-        IQuestionRepository dataRepository;
-        IReportRepository reportRepository;
+        IQuestionRepository _dataRepository;
+        IReportRepository _reportRepository;
         NameValueCollection _nameValueCollection;
 
 
         public StorageProvider(NameValueCollection nvc)
         {
-            dataRepository = null;
-            reportRepository = null;
+            _dataRepository = null;
+            _reportRepository = null;
             _nameValueCollection = nvc;
         }
 
         public Game GetService() {
-            var game = new Game(new Screen(), new ConsoleController());
-            game.Init(this);
+            var game = new Game(new Screen(), new ConsoleController(),this);
             return game; 
         }
 
         public IQuestionRepository getDataRepository()
         {
-            if (dataRepository == null)
+            if (_dataRepository == null)
             {
                 if (_nameValueCollection["storage"] == "json")
-                    dataRepository = new QuestionJSONRepository(fileNameOfDate);
+                    _dataRepository = new QuestionJSONRepository(fileNameOfData);
                 //else другие источники данных
             }
-            return dataRepository;
+            return _dataRepository;
         }
 
 
         public IReportRepository getReportRepository()
         {
-            if (reportRepository == null)
+            if (_reportRepository == null)
             {
                 if (_nameValueCollection["storage"] == "json")
-                    reportRepository = new ReportJSONRepository(fileNameOfReport);
+                    _reportRepository = new ReportJSONRepository(fileNameOfReport);
                 //else другие источники данных
             }
-            return reportRepository;
+            return _reportRepository;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace FormGame
 {
     public class StorageProvider : IStorageProvider
     {
-        const string fileNameOfDate = "datawithJson.txt";
+        const string fileNameOfData = "datawithJson.txt";
         const string fileNameOfReport = "report.txt";
 
         IQuestionRepository dataRepository;
@@ -22,8 +22,7 @@ namespace FormGame
         }
 
         public Game GetService() {
-            var game = new Game(new FormScreen(), new FormController());
-            game.Init(this);
+            var game = new Game(new FormScreen(), new FormController(), this);
             return game; 
         }
 
@@ -32,7 +31,7 @@ namespace FormGame
             if (dataRepository == null)
             {
                 if (_nameValueCollection["storage"] == "json")
-                    dataRepository = new QuestionJSONRepository(fileNameOfDate);
+                    dataRepository = new QuestionJSONRepository(fileNameOfData);
                 //else другие источники данных
             }
             return dataRepository;
