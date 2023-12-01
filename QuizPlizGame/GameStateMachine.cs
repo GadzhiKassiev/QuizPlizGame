@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 
 namespace QuizPlizGame
@@ -10,6 +11,7 @@ namespace QuizPlizGame
         State _repeadQuestionState;
         State _noQuestionState;
         State _state;
+        public event Action<GameTimer, QuizQuestion> GetMakeTurn;
 
         public Player Player { get { return game.Player; } }
         public Stack<QuizQuestion> DataGame { get { return game.Data; } }
@@ -27,7 +29,7 @@ namespace QuizPlizGame
         {
             while (_state != _noQuestionState)
             {
-                _state.Handle();
+                _state.Handle(GetMakeTurn);
             }
         }
 

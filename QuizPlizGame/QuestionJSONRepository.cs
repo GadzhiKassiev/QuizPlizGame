@@ -35,8 +35,6 @@ namespace QuizPlizGame
             }
             catch (FileNotFoundException e)
             {
-                Console.WriteLine(e.Message);
-                Console.ReadKey();
                 Environment.Exit(0);
             }
 

@@ -6,43 +6,48 @@ namespace QuizPlizGame
 {
     internal class UserInputReaderAsync
     {
-        private Task inputTask;
-        private CancellationTokenSource cancellationTokenSource;
         private Game game;
+        private CancellationTokenSource cancellationTokenSource;
+
+        public event Action<ChosenAnswer> GetHandleUserChoiceAnswer;
 
         public UserInputReaderAsync(Game game)
         {
             this.game = game;
+            cancellationTokenSource = new CancellationTokenSource();
         }
 
-        public async Task WaitForInputAsync(Action timeout, int timeOutMillisecs = Timeout.Infinite)
+        public async Task WaitForInput(Action timeout, int timeOutMillisecs = Timeout.Infinite)
         {
-            cancellationTokenSource = new CancellationTokenSource();
-            var cancellationToken = cancellationTokenSource.Token;
-
             try
             {
-                await Task.Run(async () =>
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    await Task.Delay(timeOutMillisecs, cancellationToken);
-
-                    if (!game.IsAnswered)
-                    {
-                        timeout();
-                    }
-                }, cancellationToken);
+                await Task.Delay(timeOutMillisecs, cancellationTokenSource.Token); 
+                timeout();
             }
             catch (TaskCanceledException)
             {
-                // Handle cancellation if needed
+                
             }
         }
 
-        public void CancelInputWaiting()
+        public void StopWaitingForInput()
         {
-            cancellationTokenSource?.Cancel();
+            cancellationTokenSource.Cancel();
+        }
+
+        public void StartReadingInput()
+        {
+            Task.Run(Reader);
+        }
+
+        private void Reader()
+        {
+            while (true)
+            {
+                while (!game.IsAnswered)
+                    game.controller.WaitForUserChoiceAnswer(GetHandleUserChoiceAnswer);
+                game.IsAnswered = false;
+            }
         }
     }
 }

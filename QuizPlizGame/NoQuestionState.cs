@@ -8,7 +8,7 @@ namespace QuizPlizGame
         {
             gameStateMachine = gsm;
         }
-        public override void Handle()
+        public override void Handle(Action<GameTimer, QuizQuestion> act)
         {
             throw new NotImplementedException();
         }

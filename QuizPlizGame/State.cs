@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace QuizPlizGame
 {
@@ -12,7 +13,7 @@ namespace QuizPlizGame
         public GameTimer GameTimer { get; set; }
         public QuizQuestion QuizPart { get; set; }
 
-        abstract public void Handle();
+        abstract public void Handle(Action<GameTimer,QuizQuestion> act);
     }
 }
 

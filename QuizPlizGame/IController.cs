@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuizPlizGame
 {
+    public enum ChosenMenuOption { None = 0, Start = 1, Report = 2, Exit = 3 }
+    public enum ChosenAnswer { None = 0, Answer1 = 1, Answer2 = 2, Answer3 = 3, Answer4 = 4 }
+
     /// <summary>
     /// Represents a controller interface for handling user input and choices in a game.
     /// </summary>

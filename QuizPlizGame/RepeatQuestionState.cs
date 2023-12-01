@@ -1,4 +1,5 @@
-﻿namespace QuizPlizGame
+﻿using System;
+namespace QuizPlizGame
 {
     internal class RepeatQuestionState : State
     {
@@ -6,9 +7,9 @@
         {
             gameStateMachine = gsm;
         }
-        public override void Handle()
+        public override void Handle(Action<GameTimer, QuizQuestion> act)
         {
-            gameStateMachine.game.MakeTurn(GameTimer, QuizPart);
+            act(GameTimer, QuizPart);
         }
     }
 }

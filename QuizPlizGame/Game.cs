@@ -7,20 +7,17 @@ using System.IO;
 
 namespace QuizPlizGame
 {
-    public enum ChosenMenuOption { None, Start, Report, Exit }
-    public enum ChosenAnswer { None = 0, Answer1 = 1, Answer2 = 2, Answer3 = 3, Answer4 = 4 }
-
-
+ 
     public class Game
     {
 
-        #region Fields      
-        public IDisplayer displayer;
-        public IController controller;
+        #region Fields  
         const int timeQuestion = 30;
+        IDisplayer _displayer;
+        IController _controller;
+        IStorageProvider _storageProvider;
         DateTime _timeBeginGame;
         GameStateMachine _gameStateMachine;
-        IStorageProvider _storageProvider;
         QuizQuestion _quizQuestion;
         GameTimer timer;
         bool answered;
@@ -28,15 +25,12 @@ namespace QuizPlizGame
         UserInputReader _userInputReader;
         enum AnswerStatus {None, Correct, NotCorrect, InvalidInput, TimeEnd};
         AnswerStatus answerStatus;
-
         #endregion
 
         #region Properties
-        public bool IsAnswered 
-        { 
-            get { return answered; } 
-            set { answered = value; }
-        }
+        public IDisplayer displayer { get { return _displayer; } set { _displayer = value; } }
+        public IController controller { get { return _controller; } set { _controller = value; } }
+        public bool IsAnswered { get { return answered; } set { answered = value; } }
         public Player Player { get; set; }
         public Stack<QuizQuestion> Data { get; set; }
         #endregion
@@ -46,9 +40,10 @@ namespace QuizPlizGame
         {
             Player = new Player();
             _gameStateMachine = new GameStateMachine(this);
+            _gameStateMachine.GetMakeTurn += MakeTurn;
             this.displayer = displayer;
             this.controller = controller;
-            answered = false;
+            IsAnswered = false;
             optionChosed = false;
             answerStatus = AnswerStatus.None;
             Init(storageProvider);
@@ -87,7 +82,7 @@ namespace QuizPlizGame
             displayer.ShowGameStats(new List<Report>() { fm });
         }
 
-        protected QuizQuestion[] Shuffle(QuizQuestion[] qp)
+        private QuizQuestion[] Shuffle(QuizQuestion[] qp)
         {
             Random rnd = new Random();
 
@@ -115,7 +110,7 @@ namespace QuizPlizGame
             _timeBeginGame = DateTime.Now;
         }
 
-        void HandleUserChoiceOption(ChosenMenuOption option)
+        private void HandleUserChoiceOption(ChosenMenuOption option)
         {
             if (option == ChosenMenuOption.Start)
             {
@@ -134,6 +129,7 @@ namespace QuizPlizGame
         private void Play()
         {
             _userInputReader = new UserInputReader(this);
+            _userInputReader.GetHandleUserChoiceAnswer += HandleUserChoiceAnswer;
             _gameStateMachine.Launch();
             Player.GameDate = DateTime.Now;
             Player.GameTime = Player.GameDate - _timeBeginGame;
@@ -146,16 +142,15 @@ namespace QuizPlizGame
             answerStatus = AnswerStatus.TimeEnd;
         }
 
-        public void MakeTurn(GameTimer gameTimer, QuizQuestion quizPart)
+        private void MakeTurn(GameTimer gameTimer, QuizQuestion question)
         {
             timer = gameTimer;
-            _quizQuestion = quizPart;
-            // вызывать вайт фор юзер и сдель отсчитывавет таймер если я получил импут
-            // то таймер сбрасывается если не получил импут то нужно сказать больше не жду 
+            _quizQuestion = question;
+
             _userInputReader.WaitForInput(NoSuccessInput, (timeQuestion - timer.CurrentCount) * 1000);           
             if (answerStatus == AnswerStatus.InvalidInput)
             {
-                _gameStateMachine.setState(_gameStateMachine.getRepeadQuestionState(gameTimer, quizPart));
+                _gameStateMachine.setState(_gameStateMachine.getRepeadQuestionState(gameTimer, question));
                 return;
             }
             
@@ -170,7 +165,7 @@ namespace QuizPlizGame
             }
         }
 
-        public void HandleUserChoiceAnswer(ChosenAnswer chosenAnswer)
+        private void HandleUserChoiceAnswer(ChosenAnswer chosenAnswer)
         {
             int answer = (int)chosenAnswer;
             if (answer == int.Parse(_quizQuestion.correct))

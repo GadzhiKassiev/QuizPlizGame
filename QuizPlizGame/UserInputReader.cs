@@ -8,6 +8,7 @@ namespace QuizPlizGame
         private Thread inputThread;
         private AutoResetEvent getInput, gotInput;
         private Game game;
+        public event Action<ChosenAnswer> GetHandleUserChoiceAnswer;
 
         public UserInputReader(Game game)
         {
@@ -35,7 +36,7 @@ namespace QuizPlizGame
             {
                 getInput.WaitOne();
                 while (!game.IsAnswered)
-                    game.controller.WaitForUserChoiceAnswer(game.HandleUserChoiceAnswer);
+                    game.controller.WaitForUserChoiceAnswer(GetHandleUserChoiceAnswer);
                 game.IsAnswered = false;
                 gotInput.Set();
             }
