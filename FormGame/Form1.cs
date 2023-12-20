@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Configuration;
 using QuizPlizGame;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FormGame
 {
@@ -79,11 +80,19 @@ namespace FormGame
         {
             Application.Idle -= Application_Idle;
 
-            StorageProvider sp = new StorageProvider(ConfigurationManager.AppSettings);
-            var game = sp.GetService();
-            _gameLogicThread = new Thread(game.Start);
-            _gameLogicThread.IsBackground = true;
-            _gameLogicThread.Start();          
+            var services = new ServiceCollection();
+            services.AddScoped<IDisplayer, FormScreen>();
+            services.AddScoped<IController, FormController>();
+            services.AddScoped<IStorageProvider, StorageProvider>();
+            services.AddScoped<Game>();
+            var application = services.BuildServiceProvider();
+            using (var scope = application.CreateScope())
+            {
+                var game = scope.ServiceProvider.GetService<Game>();
+                _gameLogicThread = new Thread(game.Start);
+                _gameLogicThread.IsBackground = true;
+                _gameLogicThread.Start();
+            }         
         }
    
         private void Form1_Load(object sender, EventArgs e)

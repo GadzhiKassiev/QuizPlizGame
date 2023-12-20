@@ -1,5 +1,6 @@
 ﻿using QuizPlizGame;
 using System.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleGame
 {
@@ -7,9 +8,17 @@ namespace ConsoleGame
     {
         static void Main(string[] args)
         {
-            StorageProvider sp = new StorageProvider(ConfigurationManager.AppSettings);
-            var game = sp.GetService();
-            game.Start();
+            var services = new ServiceCollection();
+            services.AddScoped<IDisplayer, Screen>();
+            services.AddScoped<IController, ConsoleController>();
+            services.AddScoped<IStorageProvider, StorageProvider>();
+            services.AddScoped<Game>();
+            var application = services.BuildServiceProvider();
+            using (var scope = application.CreateScope())
+            {
+                var game = scope.ServiceProvider.GetService<Game>();
+                game.Start();
+            }
         }
     }
 }

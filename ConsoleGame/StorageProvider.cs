@@ -21,11 +21,6 @@ namespace ConsoleGame
             _nameValueCollection = nvc;
         }
 
-        public Game GetService() {
-            var game = new Game(new Screen(), new ConsoleController(),this);
-            return game; 
-        }
-
         public IQuestionRepository getDataRepository()
         {
             if (_dataRepository == null)
