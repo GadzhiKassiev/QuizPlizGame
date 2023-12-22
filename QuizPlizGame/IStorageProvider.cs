@@ -6,12 +6,6 @@
     public interface IStorageProvider
     {
         /// <summary>
-        /// Gets the game service instance.
-        /// </summary>
-        /// <returns>The game service instance.</returns>
-        Game GetService();
-
-        /// <summary>
         /// Gets the data repository for managing game questions.
         /// </summary>
         /// <returns>The data repository for game questions.</returns>
