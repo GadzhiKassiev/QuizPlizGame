@@ -176,19 +176,19 @@ namespace QuizPlizGame
                 answered = true;
                 answerStatus = AnswerStatus.Correct;
             }
-            else if (answer != 1 && answer != 2 && answer != 3 && answer != 4)
-            {
-                displayer.ShowNoCorrectButton();
-                answered = true;
-                answerStatus = AnswerStatus.InvalidInput;
-            }
-            else if (answer == 1 || answer == 2 || answer == 3 || answer == 4)
+            else if (answer >= 1 && answer <= 4)
             {
                 timer.Stop();
                 Player.Score -= 1;
                 displayer.ShowNoCorrect();
                 answered = true;
                 answerStatus = AnswerStatus.NotCorrect;
+            }
+            else
+            {
+                displayer.ShowNoCorrectButton();
+                answered = true;
+                answerStatus = AnswerStatus.InvalidInput;             
             }
         }
     }

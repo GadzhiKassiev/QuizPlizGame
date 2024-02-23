@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Configuration;
 using QuizPlizGame;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Specialized;
 
 namespace FormGame
 {
@@ -85,6 +86,12 @@ namespace FormGame
             services.AddScoped<IController, FormController>();
             services.AddScoped<IStorageProvider, StorageProvider>();
             services.AddScoped<Game>();
+            var myCollection = ConfigurationManager.GetSection(NameValueCollectionOptions.SectionName) as NameValueCollection;
+            services.AddSingleton(myCollection);
+            services.Configure<NameValueCollectionOptions>(options =>
+            {
+                options.MyCollection = myCollection;
+            });
             var application = services.BuildServiceProvider();
             using (var scope = application.CreateScope())
             {
@@ -134,5 +141,10 @@ namespace FormGame
         {
             Key = ConsoleKey.N;
         }
+    }
+    public class NameValueCollectionOptions
+    {
+        public const string SectionName = "appSettings";
+        public NameValueCollection MyCollection { get; set; }
     }
 }
