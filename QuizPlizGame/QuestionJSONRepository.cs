@@ -14,7 +14,7 @@ namespace QuizPlizGame
             filepath = path;
             if (!File.Exists(path))
             {
-                File.Create(path);
+                throw new FileNotFoundException();
             }
         }
 
