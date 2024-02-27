@@ -1,14 +1,14 @@
 ﻿namespace QuizPlizGame
 {
     /// <summary>
-    /// Represents a repository interface for reading quiz questions.
+    /// Представляет собой интерфейс репозитория для чтения вопросов викторины.
     /// </summary>
     public interface IQuestionRepository
     {
         /// <summary>
-        /// Reads and retrieves an array of quiz questions.
+        /// Считывает и извлекает массив вопросов викторины.
         /// </summary>
-        /// <returns>An array of quiz questions.</returns>
+        /// <returns>Массив вопросов викторины.</returns>
         QuizQuestion[] Read();
     }
 }

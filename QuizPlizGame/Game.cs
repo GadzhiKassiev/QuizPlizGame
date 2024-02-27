@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-using System.IO;
-
 namespace QuizPlizGame
 {
  
@@ -53,10 +51,10 @@ namespace QuizPlizGame
         private void Init(IStorageProvider storageProvider)
         {
             _storageProvider = storageProvider;
-            IQuestionRepository qr = _storageProvider.getDataRepository();
+            IQuestionRepository qr = _storageProvider.GetDataRepository();
             QuizQuestion[] qp = Shuffle(qr.Read());
             Data = new Stack<QuizQuestion>(qp);
-            _storageProvider.getReportRepository();
+            _storageProvider.GetReportRepository();
         }
 
         public void Start()
@@ -78,7 +76,7 @@ namespace QuizPlizGame
             fm.GameDate = Player.GameDate;
             fm.GameTime = Player.GameTime;
             fm.Number = Player.Score;
-            _storageProvider.getReportRepository().Write(fm);
+            _storageProvider.GetReportRepository().Write(fm);
             displayer.ShowGameStats(new List<Report>() { fm });
         }
 
@@ -118,7 +116,7 @@ namespace QuizPlizGame
             }
             else if (option == ChosenMenuOption.Report)
             {
-                displayer.ShowGameStats(_storageProvider.getReportRepository().Read().Take(4));
+                displayer.ShowGameStats(_storageProvider.GetReportRepository().Read().Take(4));
             }
             else if (option == ChosenMenuOption.Exit)
             {

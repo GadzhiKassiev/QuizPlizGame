@@ -1,20 +1,20 @@
 ﻿namespace QuizPlizGame
 {
     /// <summary>
-    /// Represents a repository interface for reading and writing reports.
+    /// Представляет собой интерфейс репозитория для чтения и записи отчетов.
     /// </summary>
     public interface IReportRepository
     {
         /// <summary>
-        /// Reads and retrieves an array of reports.
+        /// Считывает и извлекает массив отчетов.
         /// </summary>
-        /// <returns>An array of reports.</returns>
+        /// <returns>Массив отчетов.</returns>
         Report[] Read();
 
         /// <summary>
-        /// Writes a report.
+        /// Составляет отчет.
         /// </summary>
-        /// <param name="unit">The report to be written.</param>
+        /// <param name="unit">Отчет, который необходимо написать.</param>
         void Write(Report unit);
     }
 }

@@ -1,21 +1,21 @@
 ﻿namespace QuizPlizGame
 {
     /// <summary>
-    /// Represents a storage provider interface for managing data and reports in a game.
+    /// Представляет интерфейс поставщика хранилища для управления данными и отчетами в игре.
     /// </summary>
     public interface IStorageProvider
     {
         /// <summary>
-        /// Gets the data repository for managing game questions.
+        /// Получает хранилище данных для управления игровыми вопросами.
         /// </summary>
-        /// <returns>The data repository for game questions.</returns>
-        IQuestionRepository getDataRepository();
+        /// <returns>Хранилище данных для игровых вопросов.</returns>
+        IQuestionRepository GetDataRepository();
 
         /// <summary>
-        /// Gets the report repository for managing game reports.
+        ///  Получает хранилище отчетов для управления игровыми отчетами.
         /// </summary>
-        /// <returns>The report repository for game reports.</returns>
-        IReportRepository getReportRepository();
+        /// <returns>Хранилище отчетов игры.</returns>
+        IReportRepository GetReportRepository();
 
     }
 }

@@ -27,12 +27,19 @@ namespace QuizPlizGame
 
         public void Write(Report unit)
         {
-            string json;
-            List<Report> data = GetData();
-            data.Add(unit);
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            json = JsonSerializer.Serialize(data, options);
-            File.WriteAllText(filepath, json);
+                string json;
+                List<Report> data = GetData();
+                data.Add(unit);
+            try
+            {
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                json = JsonSerializer.Serialize(data, options);
+                File.WriteAllText(filepath, json);
+            }
+            catch 
+            {
+                throw;
+            }
         }
 
         private List<Report> GetData()
@@ -41,8 +48,15 @@ namespace QuizPlizGame
 
             if (new FileInfo(filepath).Length != 0)
             {
-                var json = File.ReadAllText(filepath);
-                data = JsonSerializer.Deserialize<List<Report>>(json);
+                try
+                {
+                    var json = File.ReadAllText(filepath);
+                    data = JsonSerializer.Deserialize<List<Report>>(json);
+                }
+                catch
+                {
+                    throw;
+                }
             }
 
             return data;

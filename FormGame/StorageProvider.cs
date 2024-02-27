@@ -1,4 +1,6 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
+using System.IO;
 using QuizPlizGame;
 
 
@@ -8,6 +10,9 @@ namespace FormGame
     {
         const string fileNameOfData = "datawithJson.txt";
         const string fileNameOfReport = "report.txt";
+        const string configStorageName = "storage";
+        string storageName = "json";
+        string rootDirectory;
 
         IQuestionRepository dataRepository;
         IReportRepository reportRepository;
@@ -16,35 +21,47 @@ namespace FormGame
 
         public StorageProvider(NameValueCollection nvc)
         {
+            rootDirectory = Path.GetFullPath(Path.Combine
+                (AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\"));
             dataRepository = null;
             reportRepository = null;
             _nameValueCollection = nvc;
         }
 
-        public Game GetService() {
-            var game = new Game(new FormScreen(), new FormController(), this);
-            return game; 
-        }
-
-        public IQuestionRepository getDataRepository()
+        public IQuestionRepository GetDataRepository()
         {
+            string fullPath = Path.Combine(rootDirectory, fileNameOfData);
             if (dataRepository == null)
             {
-                if (_nameValueCollection["storage"] == "json")
-                    dataRepository = new QuestionJSONRepository(fileNameOfData);
-                //else другие источники данных
+                try
+                {
+                    if (_nameValueCollection[configStorageName] == storageName)
+                        dataRepository = new QuestionJSONRepository(fullPath);
+                    //else другие источники данных
+                }
+                catch
+                {
+                    throw;
+                }           
             }
             return dataRepository;
         }
 
-
-        public IReportRepository getReportRepository()
+        public IReportRepository GetReportRepository()
         {
+            string fullPath = Path.Combine(rootDirectory, fileNameOfReport);
             if (reportRepository == null)
             {
-                if (_nameValueCollection["storage"] == "json")
-                    reportRepository = new ReportJSONRepository(fileNameOfReport);
-                //else другие источники данных
+                try
+                {
+                    if (_nameValueCollection[configStorageName] == storageName)
+                        reportRepository = new ReportJSONRepository(fullPath);
+                    //else другие источники данных
+                }
+                catch
+                {
+                    throw;
+                }
             }
             return reportRepository;
         }

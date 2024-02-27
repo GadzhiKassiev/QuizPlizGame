@@ -10,7 +10,8 @@ namespace ConsoleGame
     {
         const string fileNameOfData = "datawithJson.txt";
         const string fileNameOfReport = "report.txt";
-        string storageName = "json";
+        const string configStorageName = "storage";
+        const string storageName = "json";
         string rootDirectory;
 
         IQuestionRepository _dataRepository;
@@ -27,27 +28,41 @@ namespace ConsoleGame
             _nameValueCollection = nvc;
         }
 
-        public IQuestionRepository getDataRepository()
+        public IQuestionRepository GetDataRepository()
         {
             string fullPath = Path.Combine(rootDirectory, fileNameOfData);
             if (_dataRepository == null)
             {
-                if (_nameValueCollection["storage"] == storageName)
-                    _dataRepository = new QuestionJSONRepository(fullPath);
-                //else другие источники данных
+                try
+                {
+                    if (_nameValueCollection[configStorageName] == storageName)
+                        _dataRepository = new QuestionJSONRepository(fullPath);
+                    //else другие источники данных
+                }
+                catch 
+                {
+                    throw;
+                }
             }
             return _dataRepository;
         }
 
 
-        public IReportRepository getReportRepository()
+        public IReportRepository GetReportRepository()
         {
             string fullPath = Path.Combine(rootDirectory, fileNameOfReport);
             if (_reportRepository == null)
             {
-                if (_nameValueCollection["storage"] == storageName)
-                    _reportRepository = new ReportJSONRepository(fullPath);
-                //else другие источники данных
+                try
+                {
+                    if (_nameValueCollection[configStorageName] == storageName)
+                        _reportRepository = new ReportJSONRepository(fullPath);
+                    //else другие источники данных
+                }
+                catch 
+                {
+                    throw;
+                }
             }
             return _reportRepository;
         }

@@ -18,6 +18,7 @@ namespace FormGame
     {
         Thread _gameLogicThread;
         public static Form1 Instance;
+        public AutoResetEvent getInput;
         public ConsoleKey? Key;
 
         public Form1()
@@ -25,6 +26,7 @@ namespace FormGame
             InitializeComponent();
             Instance = this;
             Key = null;
+            getInput = new AutoResetEvent(false);
         }
 
         public TextBox TextBox
@@ -109,37 +111,46 @@ namespace FormGame
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Key = ConsoleKey.D1;
-        }  
+            AssignKey(ConsoleKey.D1);
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Key = ConsoleKey.D2;
+            AssignKey(ConsoleKey.D2);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Key = ConsoleKey.D3;
+            AssignKey(ConsoleKey.D3);
+
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Key = ConsoleKey.D4;
-        }  
-        
+            AssignKey(ConsoleKey.D4);
+
+        }
+
         private void button5_Click(object sender, EventArgs e)
         {
-            Key = ConsoleKey.Y;
+            AssignKey(ConsoleKey.Y);
+
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            Key = ConsoleKey.R;
+            AssignKey(ConsoleKey.R);
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Key = ConsoleKey.N;
+            AssignKey(ConsoleKey.N);
+        }
+
+        private void AssignKey(ConsoleKey key)
+        {
+            Key = key;
+            getInput.Set();
         }
     }
     public class NameValueCollectionOptions

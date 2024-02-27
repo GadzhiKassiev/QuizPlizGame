@@ -10,9 +10,7 @@ namespace FormGame
         public void WaitForUserChoiceOption(Action<ChosenMenuOption> act)
         {
             ChosenMenuOption option = ChosenMenuOption.None;
-            while (Form1.Instance.Key == null)
-            {
-            }
+            Form1.Instance.getInput.WaitOne();
             if (Form1.Instance.Key == ConsoleKey.Y)
             {
                 option = ChosenMenuOption.Start;
@@ -41,9 +39,7 @@ namespace FormGame
         public void WaitForUserChoiceAnswer(Action<ChosenAnswer> act)
         {
             ChosenAnswer answer = ChosenAnswer.None;
-            while (Form1.Instance.Key == null)
-            {
-            }
+            Form1.Instance.getInput.WaitOne();
             if (Form1.Instance.Key == ConsoleKey.D1)
             {
                 answer = ChosenAnswer.Answer1;
