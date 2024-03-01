@@ -8,10 +8,10 @@ namespace FormGame
 {
     public class StorageProvider : IStorageProvider
     {
-        const string fileNameOfData = "datawithJson.txt";
-        const string fileNameOfReport = "report.txt";
-        const string configStorageName = "storage";
-        string storageName = "json";
+        const string FileNameOfData = "datawithJson.txt";
+        const string FileNameOfReport = "report.txt";
+        const string ConfigStorageName = "storage";
+        const string StorageName = "json";
         string rootDirectory;
 
         IQuestionRepository dataRepository;
@@ -30,12 +30,12 @@ namespace FormGame
 
         public IQuestionRepository GetDataRepository()
         {
-            string fullPath = Path.Combine(rootDirectory, fileNameOfData);
+            string fullPath = Path.Combine(rootDirectory, FileNameOfData);
             if (dataRepository == null)
             {
                 try
                 {
-                    if (_nameValueCollection[configStorageName] == storageName)
+                    if (_nameValueCollection[ConfigStorageName] == StorageName)
                         dataRepository = new QuestionJSONRepository(fullPath);
                     //else другие источники данных
                 }
@@ -49,12 +49,12 @@ namespace FormGame
 
         public IReportRepository GetReportRepository()
         {
-            string fullPath = Path.Combine(rootDirectory, fileNameOfReport);
+            string fullPath = Path.Combine(rootDirectory, FileNameOfReport);
             if (reportRepository == null)
             {
                 try
                 {
-                    if (_nameValueCollection[configStorageName] == storageName)
+                    if (_nameValueCollection[ConfigStorageName] == StorageName)
                         reportRepository = new ReportJSONRepository(fullPath);
                     //else другие источники данных
                 }

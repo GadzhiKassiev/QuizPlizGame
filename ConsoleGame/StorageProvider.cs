@@ -8,10 +8,10 @@ namespace ConsoleGame
 {
     public class StorageProvider : IStorageProvider
     {
-        const string fileNameOfData = "datawithJson.txt";
-        const string fileNameOfReport = "report.txt";
-        const string configStorageName = "storage";
-        const string storageName = "json";
+        const string FileNameOfData = "datawithJson.txt";
+        const string FileNameOfReport = "report.txt";
+        const string ConfigStorageName = "storage";
+        const string StorageName = "json";
         string rootDirectory;
 
         IQuestionRepository _dataRepository;
@@ -30,12 +30,12 @@ namespace ConsoleGame
 
         public IQuestionRepository GetDataRepository()
         {
-            string fullPath = Path.Combine(rootDirectory, fileNameOfData);
+            string fullPath = Path.Combine(rootDirectory, FileNameOfData);
             if (_dataRepository == null)
             {
                 try
                 {
-                    if (_nameValueCollection[configStorageName] == storageName)
+                    if (_nameValueCollection[ConfigStorageName] == StorageName)
                         _dataRepository = new QuestionJSONRepository(fullPath);
                     //else другие источники данных
                 }
@@ -50,12 +50,12 @@ namespace ConsoleGame
 
         public IReportRepository GetReportRepository()
         {
-            string fullPath = Path.Combine(rootDirectory, fileNameOfReport);
+            string fullPath = Path.Combine(rootDirectory, FileNameOfReport);
             if (_reportRepository == null)
             {
                 try
                 {
-                    if (_nameValueCollection[configStorageName] == storageName)
+                    if (_nameValueCollection[ConfigStorageName] == StorageName)
                         _reportRepository = new ReportJSONRepository(fullPath);
                     //else другие источники данных
                 }

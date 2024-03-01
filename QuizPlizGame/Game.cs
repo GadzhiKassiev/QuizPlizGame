@@ -10,7 +10,7 @@ namespace QuizPlizGame
     {
 
         #region Fields  
-        const int timeQuestion = 30;
+        const int TimeQuestion = 30;
         IDisplayer _displayer;
         IController _controller;
         IStorageProvider _storageProvider;
@@ -145,7 +145,7 @@ namespace QuizPlizGame
             timer = gameTimer;
             _quizQuestion = question;
 
-            _userInputReader.WaitForInput(NoSuccessInput, (timeQuestion - timer.CurrentCount) * 1000);           
+            _userInputReader.WaitForInput(NoSuccessInput, (TimeQuestion - timer.CurrentCount) * 1000);           
             if (answerStatus == AnswerStatus.InvalidInput)
             {
                 _gameStateMachine.setState(_gameStateMachine.getRepeadQuestionState(gameTimer, question));
