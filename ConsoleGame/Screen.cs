@@ -1,11 +1,11 @@
-﻿using System;
+﻿using QuizPlizGame;
+using System;
 using System.Collections.Generic;
-using QuizPlizGame;
 
 namespace ConsoleGame
 {
-    internal class Screen: IDisplayer
-    {  
+    public class Screen : IDisplayer
+    {
         public static int Width { get; set; }
         public static int Height { get; set; }
 
@@ -17,11 +17,11 @@ namespace ConsoleGame
         public void ShowQuestion(QuizQuestion questionData)
         {
             Clear();
-            Console.WriteLine(questionData.question);
-            Console.WriteLine("1 :  " + questionData.answer.A1);
-            Console.WriteLine("2 :  " + questionData.answer.A2);
-            Console.WriteLine("3 :  " + questionData.answer.A3);
-            Console.WriteLine("4 :  " + questionData.answer.A4);
+            Console.WriteLine(questionData.Question);
+            Console.WriteLine("1 :  " + questionData.Answer.A1);
+            Console.WriteLine("2 :  " + questionData.Answer.A2);
+            Console.WriteLine("3 :  " + questionData.Answer.A3);
+            Console.WriteLine("4 :  " + questionData.Answer.A4);
         }
 
         public void ShowGameStats(IEnumerable<Report> fm)

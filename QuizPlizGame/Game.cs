@@ -5,10 +5,10 @@ using System.Threading;
 
 namespace QuizPlizGame
 {
- 
+    public enum AnswerStatus { None, Correct, NotCorrect, InvalidInput, TimeEnd };
+
     public class Game
     {
-
         #region Fields  
         const int TimeQuestion = 30;
         IDisplayer _displayer;
@@ -17,18 +17,18 @@ namespace QuizPlizGame
         DateTime _timeBeginGame;
         GameStateMachine _gameStateMachine;
         QuizQuestion _quizQuestion;
-        GameTimer timer;
-        bool answered;
-        bool optionChosed;
+        GameTimer _timer;
+        bool _answered;
+        bool _optionChosed;
         UserInputReader _userInputReader;
-        enum AnswerStatus {None, Correct, NotCorrect, InvalidInput, TimeEnd};
-        AnswerStatus answerStatus;
+        AnswerStatus _answerStatus;
         #endregion
 
         #region Properties
-        public IDisplayer displayer { get { return _displayer; } set { _displayer = value; } }
-        public IController controller { get { return _controller; } set { _controller = value; } }
-        public bool IsAnswered { get { return answered; } set { answered = value; } }
+        public AnswerStatus AnswerStatus { get { return _answerStatus; } }
+        public IDisplayer Displayer { get { return _displayer; } set { _displayer = value; } }
+        public IController Controller { get { return _controller; } set { _controller = value; } }
+        public bool IsAnswered { get { return _answered; } set { _answered = value; } }
         public Player Player { get; set; }
         public Stack<QuizQuestion> Data { get; set; }
         #endregion
@@ -39,11 +39,11 @@ namespace QuizPlizGame
             Player = new Player();
             _gameStateMachine = new GameStateMachine(this);
             _gameStateMachine.GetMakeTurn += MakeTurn;
-            this.displayer = displayer;
-            this.controller = controller;
+            this.Displayer = displayer;
+            this.Controller = controller;
             IsAnswered = false;
-            optionChosed = false;
-            answerStatus = AnswerStatus.None;
+            _optionChosed = false;
+            _answerStatus = AnswerStatus.None;
             Init(storageProvider);
         }
         #endregion    
@@ -52,7 +52,7 @@ namespace QuizPlizGame
         {
             _storageProvider = storageProvider;
             IQuestionRepository qr = _storageProvider.GetDataRepository();
-            QuizQuestion[] qp = Shuffle(qr.Read());
+            QuizQuestion[] qp = QuizQuestionShuffle.SimpleShuffle(qr.Read());
             Data = new Stack<QuizQuestion>(qp);
             _storageProvider.GetReportRepository();
         }
@@ -77,33 +77,19 @@ namespace QuizPlizGame
             fm.GameTime = Player.GameTime;
             fm.Number = Player.Score;
             _storageProvider.GetReportRepository().Write(fm);
-            displayer.ShowGameStats(new List<Report>() { fm });
-        }
-
-        private QuizQuestion[] Shuffle(QuizQuestion[] qp)
-        {
-            Random rnd = new Random();
-
-            for (int i = 0; i < qp.Length; i++)
-            {
-                int r = rnd.Next(0, i + 1);
-                QuizQuestion swap = qp[i];
-                qp[i] = qp[r];
-                qp[r] = swap;
-            }
-            return qp;
+            Displayer.ShowGameStats(new List<Report>() { fm });
         }
 
         private void Introduce()
         {
-            displayer.Greetings();
+            Displayer.Greetings();
         }
 
         private void ChooseOption()
         {
-            while (!optionChosed)
+            while (!_optionChosed)
             {
-                controller.WaitForUserChoiceOption(HandleUserChoiceOption);
+                Controller.WaitForUserChoiceOption(HandleUserChoiceOption);
             }
             _timeBeginGame = DateTime.Now;
         }
@@ -112,11 +98,11 @@ namespace QuizPlizGame
         {
             if (option == ChosenMenuOption.Start)
             {
-                optionChosed = true;
+                _optionChosed = true;
             }
             else if (option == ChosenMenuOption.Report)
             {
-                displayer.ShowGameStats(_storageProvider.GetReportRepository().Read().Take(4));
+                Displayer.ShowGameStats(_storageProvider.GetReportRepository().Read().Take(4));
             }
             else if (option == ChosenMenuOption.Exit)
             {
@@ -135,61 +121,59 @@ namespace QuizPlizGame
 
         private void NoSuccessInput()
         {
-            timer.Stop();
-            displayer.ShowEndTime();
-            answerStatus = AnswerStatus.TimeEnd;
+            _timer.Stop();
+            Displayer.ShowEndTime();
+            _answerStatus = AnswerStatus.TimeEnd;
         }
 
         private void MakeTurn(GameTimer gameTimer, QuizQuestion question)
         {
-            timer = gameTimer;
+            _timer = gameTimer;
             _quizQuestion = question;
 
-            _userInputReader.WaitForInput(NoSuccessInput, (TimeQuestion - timer.CurrentCount) * 1000);           
-            if (answerStatus == AnswerStatus.InvalidInput)
+            _userInputReader.WaitForInput(NoSuccessInput, (TimeQuestion - _timer.CurrentCount) * 1000);
+            if (_answerStatus == AnswerStatus.InvalidInput)
             {
-                _gameStateMachine.setState(_gameStateMachine.getRepeadQuestionState(gameTimer, question));
+                _gameStateMachine.SetState(_gameStateMachine.GetRepeadQuestionState(gameTimer, question));
                 return;
             }
-            
+
             Thread.Sleep(2000);
             if (Data.Count <= 0)
             {
-                _gameStateMachine.setState(_gameStateMachine.getNoQuestionState());
+                _gameStateMachine.SetState(_gameStateMachine.GetNoQuestionState());
             }
             else
             {
-                _gameStateMachine.setState(_gameStateMachine.getNextQuestionState());
+                _gameStateMachine.SetState(_gameStateMachine.GetNextQuestionState());
             }
         }
 
         private void HandleUserChoiceAnswer(ChosenAnswer chosenAnswer)
         {
             int answer = (int)chosenAnswer;
-            if (answer == int.Parse(_quizQuestion.correct))
+            if (answer == _quizQuestion.Correct)
             {
-                timer.Stop();
+                _timer.Stop();
                 Player.Score += 1;
-                displayer.ShowSuccess();
-                answered = true;
-                answerStatus = AnswerStatus.Correct;
+                Displayer.ShowSuccess();
+                _answered = true;
+                _answerStatus = AnswerStatus.Correct;
             }
             else if (answer >= 1 && answer <= 4)
             {
-                timer.Stop();
+                _timer.Stop();
                 Player.Score -= 1;
-                displayer.ShowNoCorrect();
-                answered = true;
-                answerStatus = AnswerStatus.NotCorrect;
+                Displayer.ShowNoCorrect();
+                _answered = true;
+                _answerStatus = AnswerStatus.NotCorrect;
             }
             else
             {
-                displayer.ShowNoCorrectButton();
-                answered = true;
-                answerStatus = AnswerStatus.InvalidInput;             
+                Displayer.ShowNoCorrectButton();
+                _answered = true;
+                _answerStatus = AnswerStatus.InvalidInput;
             }
         }
     }
 }
-
-

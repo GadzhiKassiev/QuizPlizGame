@@ -5,27 +5,33 @@ namespace QuizPlizGame
 {
     public class QuizQuestions
     {
-        public QuizQuestion[] quiz { get; set; }
+        [JsonPropertyName("quiz")]
+        public QuizQuestion[] Quiz { get; set; }
 
         public QuizQuestions(QuizQuestion[] quiz)
         {
-            this.quiz = quiz;
+            this.Quiz = quiz;
         }
     }
 
     public class QuizQuestion
     {
-        public string question { get; set; }
-        public QuizAnswer answer { get; set; }
-        public string correct { get; set; }
+        [JsonPropertyName("question")]
+        public string Question { get; set; }
+
+        [JsonPropertyName("answer")]
+        public QuizAnswer Answer { get; set; }
+
+        [JsonPropertyName("correct")]
+        public int Correct { get; set; }
 
 
 
-        public QuizQuestion(string question, QuizAnswer answer, string correct)
+        public QuizQuestion(string question, QuizAnswer answer, int correct)
         {
-            this.question = question;
-            this.answer = answer;
-            this.correct = correct;
+            this.Question = question;
+            this.Answer = answer;
+            this.Correct = correct;
         }
     }
 

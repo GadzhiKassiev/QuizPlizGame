@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Text.Json;
 using System.IO;
+using System.Text.Json;
 
 namespace QuizPlizGame
 {
@@ -20,7 +20,7 @@ namespace QuizPlizGame
 
         public QuizQuestion[] Read()
         {
-            return GetData().quiz;
+            return GetData().Quiz;
         }
 
 

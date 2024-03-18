@@ -63,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionJSONRepository.cs" />
     <Compile Include="Quiz.cs" />
+    <Compile Include="QuizQuestionShuffle.cs" />
     <Compile Include="UserInputReader.cs" />
     <Compile Include="RepeatQuestionState.cs" />
     <Compile Include="Report.cs" />

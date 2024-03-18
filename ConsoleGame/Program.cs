@@ -1,7 +1,7 @@
-﻿using QuizPlizGame;
-using System.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using QuizPlizGame;
 using System.Collections.Specialized;
+using System.Configuration;
 
 namespace ConsoleGame
 {
@@ -29,7 +29,7 @@ namespace ConsoleGame
             {
                 var game = scope.ServiceProvider.GetService<Game>();
                 game.Start();
-            }        
+            }
         }
 
         public class NameValueCollectionOptions

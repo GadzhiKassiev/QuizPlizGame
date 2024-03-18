@@ -1,7 +1,7 @@
-﻿using System;
+﻿using QuizPlizGame;
+using System;
 using System.Collections.Specialized;
 using System.IO;
-using QuizPlizGame;
 
 
 namespace ConsoleGame
@@ -9,10 +9,10 @@ namespace ConsoleGame
     public class StorageProvider : IStorageProvider
     {
         const string FileNameOfData = "datawithJson.txt";
-        const string FileNameOfReport = "report.txt";
+        const string FileNameOfReport = "reportGame.txt";
         const string ConfigStorageName = "storage";
         const string StorageName = "json";
-        string rootDirectory;
+        readonly string rootDirectory;
 
         IQuestionRepository _dataRepository;
         IReportRepository _reportRepository;
@@ -21,49 +21,37 @@ namespace ConsoleGame
 
         public StorageProvider(NameValueCollection nvc)
         {
-            rootDirectory = Path.GetFullPath(Path.Combine
-                (AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\"));
+            rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
             _dataRepository = null;
             _reportRepository = null;
             _nameValueCollection = nvc;
+
+            switch (_nameValueCollection[ConfigStorageName])
+            {
+                case StorageName:
+                    _dataRepository = new QuestionJSONRepository(Path.Combine(rootDirectory, FileNameOfData));
+                    _reportRepository = new ReportJSONRepository(Path.Combine(rootDirectory, FileNameOfReport));
+                    break;
+                    //else другие источники данных
+            }
+            if (_dataRepository == null)
+            {
+                throw new NullReferenceException($"Неверно указано имя хранилища {ConfigStorageName} в конфиге");
+            }
+            if (_reportRepository == null)
+            {
+                throw new NullReferenceException($"Неверно указано имя хранилища {ConfigStorageName} в конфиге");
+            }
         }
 
         public IQuestionRepository GetDataRepository()
         {
-            string fullPath = Path.Combine(rootDirectory, FileNameOfData);
-            if (_dataRepository == null)
-            {
-                try
-                {
-                    if (_nameValueCollection[ConfigStorageName] == StorageName)
-                        _dataRepository = new QuestionJSONRepository(fullPath);
-                    //else другие источники данных
-                }
-                catch 
-                {
-                    throw;
-                }
-            }
             return _dataRepository;
         }
 
 
         public IReportRepository GetReportRepository()
         {
-            string fullPath = Path.Combine(rootDirectory, FileNameOfReport);
-            if (_reportRepository == null)
-            {
-                try
-                {
-                    if (_nameValueCollection[ConfigStorageName] == StorageName)
-                        _reportRepository = new ReportJSONRepository(fullPath);
-                    //else другие источники данных
-                }
-                catch 
-                {
-                    throw;
-                }
-            }
             return _reportRepository;
         }
     }

@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameUnitTest", "GameUnitTest\GameUnitTest.csproj", "{75C4AAFD-73BB-4260-8E13-BA367485E050}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{38701317-E6AC-4B9A-AFA9-3B0D09DE088D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38701317-E6AC-4B9A-AFA9-3B0D09DE088D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38701317-E6AC-4B9A-AFA9-3B0D09DE088D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75C4AAFD-73BB-4260-8E13-BA367485E050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75C4AAFD-73BB-4260-8E13-BA367485E050}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75C4AAFD-73BB-4260-8E13-BA367485E050}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75C4AAFD-73BB-4260-8E13-BA367485E050}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

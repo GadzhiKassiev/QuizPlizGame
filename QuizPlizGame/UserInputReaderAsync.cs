@@ -21,12 +21,12 @@ namespace QuizPlizGame
         {
             try
             {
-                await Task.Delay(timeOutMillisecs, cancellationTokenSource.Token); 
+                await Task.Delay(timeOutMillisecs, cancellationTokenSource.Token);
                 timeout();
             }
             catch (TaskCanceledException)
             {
-                
+
             }
         }
 
@@ -45,7 +45,7 @@ namespace QuizPlizGame
             while (true)
             {
                 while (!game.IsAnswered)
-                    game.controller.WaitForUserChoiceAnswer(GetHandleUserChoiceAnswer);
+                    game.Controller.WaitForUserChoiceAnswer(GetHandleUserChoiceAnswer);
                 game.IsAnswered = false;
             }
         }

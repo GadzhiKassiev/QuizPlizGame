@@ -104,5 +104,13 @@
       <Name>QuizPlizGame</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="datawithJson.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="reportGame.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

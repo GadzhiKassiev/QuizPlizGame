@@ -30,13 +30,13 @@ namespace QuizPlizGame
             }
         }
 
-        private  void Reader()
+        private void Reader()
         {
             while (true)
             {
                 getInput.WaitOne();
                 while (!game.IsAnswered)
-                    game.controller.WaitForUserChoiceAnswer(GetHandleUserChoiceAnswer);
+                    game.Controller.WaitForUserChoiceAnswer(GetHandleUserChoiceAnswer);
                 game.IsAnswered = false;
                 gotInput.Set();
             }

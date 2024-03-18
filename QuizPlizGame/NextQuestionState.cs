@@ -10,7 +10,7 @@ namespace QuizPlizGame
         }
         public override void Handle(Action<GameTimer, QuizQuestion> act)
         {
-            var displayer = gameStateMachine.getDisplaer();
+            var displayer = gameStateMachine.GetDisplaer();
             GameTimer = new GameTimer(displayer);
             QuizPart = GetData.Pop();
             displayer.ShowQuestion(QuizPart);

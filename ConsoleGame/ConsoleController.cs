@@ -1,15 +1,14 @@
 ﻿using QuizPlizGame;
 using System;
-using System.Linq;
 
 namespace ConsoleGame
 {
-    internal class ConsoleController : IController
+    public class ConsoleController : IController
     {
         public void WaitForUserChoiceOption(Action<ChosenMenuOption> act)
         {
             ConsoleKeyInfo cki;
-      
+
             cki = Console.ReadKey();
             ChosenMenuOption option = ChosenMenuOption.None;
             if (cki.Key == ConsoleKey.Y)
@@ -23,7 +22,7 @@ namespace ConsoleGame
             else if (cki.Key == ConsoleKey.N)
             {
                 option = ChosenMenuOption.Exit;
-            }        
+            }
             act(option);
         }
 

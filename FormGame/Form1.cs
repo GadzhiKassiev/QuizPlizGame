@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Extensions.DependencyInjection;
+using QuizPlizGame;
+using System;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Threading;
 using System.Windows.Forms;
-using System.Configuration;
-using QuizPlizGame;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Specialized;
 
 namespace FormGame
 {
@@ -18,7 +12,7 @@ namespace FormGame
     {
         Thread _gameLogicThread;
         public static Form1 Instance;
-        public AutoResetEvent getInput;
+        public AutoResetEvent GetInput;
         public ConsoleKey? Key;
 
         public Form1()
@@ -26,7 +20,7 @@ namespace FormGame
             InitializeComponent();
             Instance = this;
             Key = null;
-            getInput = new AutoResetEvent(false);
+            GetInput = new AutoResetEvent(false);
         }
 
         public TextBox TextBox
@@ -101,9 +95,9 @@ namespace FormGame
                 _gameLogicThread = new Thread(game.Start);
                 _gameLogicThread.IsBackground = true;
                 _gameLogicThread.Start();
-            }         
+            }
         }
-   
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -150,7 +144,7 @@ namespace FormGame
         private void AssignKey(ConsoleKey key)
         {
             Key = key;
-            getInput.Set();
+            GetInput.Set();
         }
     }
     public class NameValueCollectionOptions

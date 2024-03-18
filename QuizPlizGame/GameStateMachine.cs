@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 
 namespace QuizPlizGame
@@ -33,29 +33,29 @@ namespace QuizPlizGame
             }
         }
 
-        public void setState(State state)
+        public void SetState(State state)
         {
             _state = state;
         }
 
-        public IDisplayer getDisplaer()
+        public IDisplayer GetDisplaer()
         {
-            return game.displayer;
+            return game.Displayer;
         }
 
-        public State getNextQuestionState()
+        public State GetNextQuestionState()
         {
             return _nextQuestionState;
         }
 
-        public State getRepeadQuestionState(GameTimer gameTimer, QuizQuestion quizPart)
+        public State GetRepeadQuestionState(GameTimer gameTimer, QuizQuestion quizPart)
         {
             _repeadQuestionState.QuizPart = quizPart;
             _repeadQuestionState.GameTimer = gameTimer;
             return _repeadQuestionState;
         }
 
-        public State getNoQuestionState()
+        public State GetNoQuestionState()
         {
             return _noQuestionState;
         }

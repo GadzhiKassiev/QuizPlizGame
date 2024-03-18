@@ -10,11 +10,12 @@ namespace FormGame
         public void WaitForUserChoiceOption(Action<ChosenMenuOption> act)
         {
             ChosenMenuOption option = ChosenMenuOption.None;
-            Form1.Instance.getInput.WaitOne();
+            Form1.Instance.GetInput.WaitOne();
             if (Form1.Instance.Key == ConsoleKey.Y)
             {
                 option = ChosenMenuOption.Start;
-                Form1.Instance.TextBox.Invoke((MethodInvoker)delegate {
+                Form1.Instance.TextBox.Invoke((MethodInvoker)delegate
+                {
                     Form1.Instance.StartButton.Enabled = false;
                     Form1.Instance.ReportButton.Enabled = false;
                     Form1.Instance.ExitButton.Enabled = false;
@@ -39,7 +40,7 @@ namespace FormGame
         public void WaitForUserChoiceAnswer(Action<ChosenAnswer> act)
         {
             ChosenAnswer answer = ChosenAnswer.None;
-            Form1.Instance.getInput.WaitOne();
+            Form1.Instance.GetInput.WaitOne();
             if (Form1.Instance.Key == ConsoleKey.D1)
             {
                 answer = ChosenAnswer.Answer1;

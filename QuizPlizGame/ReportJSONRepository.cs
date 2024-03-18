@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace QuizPlizGame
 {
@@ -27,16 +26,16 @@ namespace QuizPlizGame
 
         public void Write(Report unit)
         {
-                string json;
-                List<Report> data = GetData();
-                data.Add(unit);
+            string json;
+            List<Report> data = GetData();
+            data.Add(unit);
             try
             {
                 var options = new JsonSerializerOptions { WriteIndented = true };
                 json = JsonSerializer.Serialize(data, options);
                 File.WriteAllText(filepath, json);
             }
-            catch 
+            catch
             {
                 throw;
             }
